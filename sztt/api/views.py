@@ -30,16 +30,14 @@ def get_article(request):
         articlelist = []
         try:
             article_obj = article.objects.get(article_id='30523243')
-            for ar in article_obj:
-                articlelist.append(
-                    {
-                        "id": ar.article_id,
-                        "title": ar.article_title,
-                        "date": ar.article_date,
-                        "content": ar.article_content
-                    }
-                )
-            return make_response(articlelist)
+            return make_response(
+                {
+                    "id": article_obj.article_id,
+                    "title": article_obj.article_title,
+                    "date": article_obj.article_date,
+                    "content": article_obj.article_content
+                }
+            )
         except Exception as e:
             print(e)
             return make_response("Internal Server Error", status.HTTP_500_INTERNAL_SERVER_ERROR)
