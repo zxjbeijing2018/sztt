@@ -61,9 +61,9 @@ def get_article(_article_info):
     content = str(soup.find('div', attrs={'class': 'd2txt clearfix'}))
     try:
         article_obj = article(
-            article_id=_article_info['id']
-            article_title=_article_info['title']
-            article_date=_article_info['date']
+            article_id=_article_info['id'],
+            article_title=_article_info['title'],
+            article_date=_article_info['date'],
             article_content=content
         )
         article_obj.save()
