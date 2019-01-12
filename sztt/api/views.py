@@ -22,7 +22,7 @@ def spider(request):
 
 
 @csrf_exempt
-def article(request):
+def get_article(request):
     if request.method != 'GET':
         return make_response("Method Not Allowed", status.HTTP_405_METHOD_NOT_ALLOWED)
     else:
