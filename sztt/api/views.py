@@ -36,7 +36,7 @@ def get_article(request):
                         "id": ar.article_id,
                         "title": ar.article_title,
                         "date": ar.article_date,
-                        "content": article_content
+                        "content": ar.article_content
                     }
                 )
             return make_response(articlelist)
