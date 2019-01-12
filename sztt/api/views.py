@@ -29,7 +29,7 @@ def get_article(request):
     else:
         articlelist = []
         try:
-            article_obj = article.objects.all()
+            article_obj = article.objects.get(article_id='30523243')
             for ar in article_obj:
                 articlelist.append(
                     {
