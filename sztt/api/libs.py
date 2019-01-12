@@ -31,7 +31,7 @@ def make_response(content='', status=status.HTTP_200_OK, typed='application/json
             else:
                 response['data'] = 'NUll'
             try:
-                return JsonResponse(response, status=status)
+                return JsonResponse(response, status=status, json_dumps_params={'ensure_ascii': False})
             except Exception as e:
                 return HttpResponse('[ERROR] "{0}"'.format(str(e)))
         else:
