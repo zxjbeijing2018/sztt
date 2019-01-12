@@ -36,7 +36,7 @@ def get_article(request):
                     "id": article_obj.article_id,
                     "title": article_obj.article_title,
                     "date": article_obj.article_date,
-                    "content": article_obj.article_content.replace('\n', '').replace('\', '')
+                    "content": article_obj.article_content.replace('\n', '').replace('\\', '')
                 }
             )
         except Exception as e:
