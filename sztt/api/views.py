@@ -15,3 +15,16 @@ def spider(request):
         for ar in get_article_info(329):
             get_article(ar)
         return make_response("OK")
+
+
+@csrf_exempt
+def article(request):
+    if request.method != 'GET':
+        return make_response("Method Not Allowed", status.HTTP_405_METHOD_NOT_ALLOWED)
+    else:
+        articlelist = []
+        try:
+            article_obj = article.objects.all()
+            for ar in article_obj:
+                articlelist.append(ar)
+            return make_response(articlelist)
