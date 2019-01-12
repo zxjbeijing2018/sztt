@@ -30,6 +30,7 @@ def get_article(request):
         articlelist = []
         try:
             article_obj = article.objects.get(article_id='30523243')
+            print(article_obj.article_title)
             return make_response(
                 {
                     "id": article_obj.article_id,
