@@ -31,3 +31,5 @@ def article(request):
             for ar in article_obj:
                 articlelist.append(ar)
             return make_response(articlelist)
+        except Exception:
+            return make_response("Internal Server Error", status.HTTP_500_INTERNAL_SERVER_ERROR)
