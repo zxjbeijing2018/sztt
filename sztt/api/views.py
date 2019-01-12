@@ -12,11 +12,12 @@ def spider(request):
     if request.method != 'POST':
         return make_response("Method Not Allowed", status.HTTP_405_METHOD_NOT_ALLOWED)
     else:
-        if request.POST['authorized'] == '57589':
-            for ar in get_article_info(329):
-                get_article(ar)
-            return make_response("OK")
-        else:
+        try:
+            if request.POST['authorized'] == '57589':
+                for ar in get_article_info(329):
+                    get_article(ar)
+                return make_response("OK")
+        except Exception:
             return make_response("Authorization failure", status.HTTP_403_FORBIDDEN)
 
 
