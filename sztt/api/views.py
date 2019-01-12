@@ -30,6 +30,7 @@ def get_article(request):
         try:
             article_obj = article.objects.all()
             for ar in article_obj:
+                print(ar.article_id)
                 articlelist.append(
                     {
                         "id": ar.article_id,
