@@ -17,7 +17,8 @@ def spider(request):
                 for ar in get_article_info(329):
                     get_article(ar)
                 return make_response("OK")
-        except Exception:
+        except Exception as e:
+            print(e)
             return make_response("Authorization failure", status.HTTP_403_FORBIDDEN)
 
 
@@ -30,7 +31,6 @@ def get_article(request):
         try:
             article_obj = article.objects.all()
             for ar in article_obj:
-                print(ar.article_id)
                 articlelist.append(
                     {
                         "id": ar.article_id,
@@ -40,5 +40,6 @@ def get_article(request):
                     }
                 )
             return make_response(articlelist)
-        except Exception:
+        except Exception as e:
+            print(e)
             return make_response("Internal Server Error", status.HTTP_500_INTERNAL_SERVER_ERROR)
