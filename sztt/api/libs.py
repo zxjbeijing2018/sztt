@@ -43,7 +43,6 @@ def get_article_info(_max):
     for i in range(1, _max+1):
         url = url_root.format(i)
         response = requests.get(url)
-
         soup = BeautifulSoup(response.text, "lxml")
         for li in soup.find('ul', attrs={'class': 'list_14 p1_2 clearfix'}):
             try:
@@ -52,7 +51,7 @@ def get_article_info(_max):
                     'title': li.a.string,
                     'date': li.get_text().strip()[-11:-1]
                 }
-            except Exception:
+            except Exception as e:
                 pass
 
 
@@ -60,13 +59,19 @@ def get_article(_article_info):
     url = "http://jhsjk.people.cn/article/{}".format(_article_info['id'])
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "lxml")
-    content = str(soup.find('div', attrs={'class': 'd2txt clearfix'}))
+    content = soup.find('div', attrs={'class': 'd2txt clearfix'})
+    cover = content.find('img')
+    try:
+        cover = str(cover['src'])
+    except Exception:
+        cover = 'NULL'
     try:
         article_obj = article(
             article_id=_article_info['id'],
             article_title=_article_info['title'],
             article_date=_article_info['date'],
-            article_content=content
+            article_content=str(content).replace('\n', ''),
+            article_cover=cover
         )
         article_obj.save()
     except Exception:
