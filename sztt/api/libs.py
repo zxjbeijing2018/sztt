@@ -62,6 +62,11 @@ def get_article(_article_info):
 
     content = soup.find('div', attrs={'class': 'd2txt clearfix'})
 
+    tabletags = ["table", "tbody", "tr", "td", "th"]
+    for ttag in tabletags:
+        for match in content.findAll(ttag):
+            match.replaceWithChildren()
+
     del content["class"]
     for tag in content():
         for attribute in ["class", "id", "name", "style", "align", "width", "height"]:

@@ -36,9 +36,30 @@ def getarticle(request, _id):
                     "id": article_obj.article_id,
                     "title": article_obj.article_title,
                     "date": article_obj.article_date,
-                    "author_avatar": article_obj.article_cover,
                     "content": article_obj.article_content
                 }
             )
         except Exception as e:
             return make_response("Article Not Exist", status.HTTP_404_NOT_FOUND)
+
+
+@csrf_exempt
+def article_list(request):
+    if request.method != 'GET':
+        return make_response("Method Not Allowed", status.HTTP_405_METHOD_NOT_ALLOWED)
+    else:
+        article_list = []
+        try:
+            article_objs = article.objects.all()
+            for article_obj in article_objs:
+                article_list.append(
+                    {
+                        "id": article_obj.article_id,
+                        "title": article_obj.article_title,
+                        "date": article_obj.article_date,
+                        "author_avatar": article_obj.article_cover
+                    }
+                )
+        except Exception as e:
+            return make_response(str(e), status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return make_response(article_list)
