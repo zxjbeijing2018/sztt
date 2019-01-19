@@ -59,7 +59,14 @@ def get_article(_article_info):
     url = "http://jhsjk.people.cn/article/{}".format(_article_info['id'])
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "lxml")
+
     content = soup.find('div', attrs={'class': 'd2txt clearfix'})
+
+    del content["class"]
+    for tag in content():
+        for attribute in ["class", "id", "name", "style", "align", "width", "height"]:
+            del tag[attribute]
+
     cover = content.find('img')
     try:
         cover = str(cover['src'])

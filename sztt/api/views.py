@@ -36,7 +36,7 @@ def getarticle(request, _id):
                     "id": article_obj.article_id,
                     "title": article_obj.article_title,
                     "date": article_obj.article_date,
-                    "content": article_obj.article_content.replace('\n', '')
+                    "content": article_obj.article_content
                 }
             )
         except Exception as e:
@@ -49,4 +49,3 @@ def getarticle(request, _id):
 #         return make_response("Method Not Allowed", status.HTTP_405_METHOD_NOT_ALLOWED)
 #     else:
 #         try:
-
