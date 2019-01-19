@@ -41,11 +41,3 @@ def getarticle(request, _id):
             )
         except Exception as e:
             return make_response("Article Not Exist", status.HTTP_404_NOT_FOUND)
-
-
-# @csrf_exempt
-# def article_list(request):
-#     if request.method != 'GET':
-#         return make_response("Method Not Allowed", status.HTTP_405_METHOD_NOT_ALLOWED)
-#     else:
-#         try:
