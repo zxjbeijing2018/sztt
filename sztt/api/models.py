@@ -8,3 +8,7 @@ class article(models.Model):
     article_date = models.DateField()
     article_cover = models.CharField(max_length=4096)
     article_content = models.TextField()
+
+
+class category(models.Model):
+    category_id = models.CharField(max_length=255)

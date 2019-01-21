@@ -41,6 +41,7 @@ def getarticle(request, _id):
                 }
             )
         except Exception as e:
+            print(e)
             return make_response("Article Not Exist", status.HTTP_404_NOT_FOUND)
 
 
@@ -62,5 +63,6 @@ def article_list(request):
                     }
                 )
         except Exception as e:
-            return make_response(str(e), status.HTTP_500_INTERNAL_SERVER_ERROR)
+            print(e)
+            return make_response("Article Not Exist", status.HTTP_500_INTERNAL_SERVER_ERROR)
         return make_response(article_list)
