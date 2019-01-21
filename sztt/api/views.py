@@ -15,12 +15,13 @@ def spider(request):
     else:
         try:
             if request.META.get('HTTP_AUTHORIZED') == '57589':
-                for ar in get_article_info(330):
+                for ar in get_article_info():
                     get_article(ar)
                 return make_response("OK")
             else:
                 raise RuntimeError("Authorization failure")
-        except Exception:
+        except Exception as e:
+            print(e)
             return make_response("Authorization failure", status.HTTP_403_FORBIDDEN)
 
 
