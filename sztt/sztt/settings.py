@@ -60,8 +60,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'sztt.asgi.application'
-
+WSGI_APPLICATION = 'sztt.wsgi.application'
+ASGI_APPLICATION = "sztt.asgi.application"
 
 # Database
 DATABASES = {
@@ -85,7 +85,6 @@ CHANNEL_LAYERS = {
     }
 }
 
-ASGI_APPLICATION = "sztt.asgi.application"
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
