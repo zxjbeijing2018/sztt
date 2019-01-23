@@ -85,6 +85,7 @@ CHANNEL_LAYERS = {
     }
 }
 
+ASGI_APPLICATION = "sztt.routing.application"
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
