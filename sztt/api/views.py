@@ -79,4 +79,4 @@ def echo(request):
             return make_response('close')
     else:
         for message in request.websocket:
-            request.websocket.send(message)
+            request.websocket.send('message')
