@@ -26,7 +26,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'corsheaders',
-    'channels',
 
     'api'
 ]
@@ -61,7 +60,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'sztt.wsgi.application'
-ASGI_APPLICATION = "sztt.asgi.application"
+
 
 # Database
 DATABASES = {
@@ -72,16 +71,6 @@ DATABASES = {
         'PASSWORD': 'zb@1030475',
         'HOST': '127.0.0.1',
         'PORT': 3306,
-    }
-}
-
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'asgi_redis.RedisChannelLayer',
-        'CONFIG': {
-            'hosts': [('localhost', 6379)],
-        },
-        'ROUTING': 'sztt.routing.channel_routing',
     }
 }
 
