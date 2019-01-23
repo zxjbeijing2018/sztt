@@ -6,5 +6,4 @@ urlpatterns = [
     path('spider', api_views.spider),
     path('article/<_id>', api_views.getarticle),
     path('article_list', api_views.article_list),
-    path('echo', api_views.echo),
 ]

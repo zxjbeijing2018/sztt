@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'corsheaders',
+    'channels',
 
     'api'
 ]
@@ -71,6 +72,16 @@ DATABASES = {
         'PASSWORD': 'zb@1030475',
         'HOST': '127.0.0.1',
         'PORT': 3306,
+    }
+}
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'asgi_redis.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('localhost', 6379)],
+        },
+        'ROUTING': 'example_channels.routing.channel_routing',
     }
 }
 
