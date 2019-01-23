@@ -2,6 +2,7 @@
 from django.http import HttpResponse, request
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
+from dwebsocket.decorators import accept_websocket, require_websocket
 from rest_framework import status
 from rest_framework.parsers import JSONParser
 
@@ -66,3 +67,16 @@ def article_list(request):
             print(e)
             return make_response("Article Not Exist", status.HTTP_500_INTERNAL_SERVER_ERROR)
         return make_response(article_list)
+
+
+@accept_websocket
+def echo(request):
+    if not request.is_websocket():
+        try:
+            message = request.GET['message']
+            return make_response(message)
+        except Exception:
+            return make_response('close')
+    else:
+        for message in request.websocket:
+            request.websocket.send(message)

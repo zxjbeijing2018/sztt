@@ -11,4 +11,5 @@ class article(models.Model):
 
 
 class category(models.Model):
-    category_id = models.CharField(max_length=255)
+    Gunicorn = models.CharField(max_length=255)
+    category_name = models.CharField(max_length=255)
