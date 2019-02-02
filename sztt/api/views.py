@@ -2,9 +2,9 @@
 from django.http import HttpResponse, request
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
-from rest_framework.parsers import JSONParser
 
 from api.libs import *
+from api.tasks import run_spider
 
 
 @csrf_exempt
@@ -14,8 +14,9 @@ def spider(request):
     else:
         try:
             if request.META.get('HTTP_AUTHORIZED') == '57589':
-                for ar in get_article_info():
-                    get_article(ar)
+                # for ar in get_article_info():
+                #     get_article(ar)
+                run_spider.delay()
                 return make_response("OK")
             else:
                 raise RuntimeError("Authorization failure")
@@ -36,7 +37,11 @@ def getarticle(request, _id):
                     "id": article_obj.article_id,
                     "title": article_obj.article_title,
                     "date": article_obj.article_date,
-                    "content": article_obj.article_content
+                    "content": article_obj.article_content,
+                    "category": {
+                        "id": article_obj.article_category.category_id,
+                        "display_name": article_obj.article_category.category_name
+                    }
                 }
             )
         except Exception as e:
@@ -51,17 +56,46 @@ def article_list(request):
     else:
         article_list = []
         try:
-            article_objs = article.objects.all()
+            cat = request.GET.get('category_id', default='0')
+            article_objs = article.objects.filter(
+                article_category=cat).order_by('-article_date')
             for article_obj in article_objs:
                 article_list.append(
                     {
                         "id": article_obj.article_id,
                         "title": article_obj.article_title,
                         "date": article_obj.article_date,
-                        "author_avatar": article_obj.article_cover
+                        "author_avatar": article_obj.article_cover,
+                        "category": {
+                            "id": article_obj.article_category.category_id,
+                            "display_name": article_obj.article_category.category_name
+                        }
                     }
                 )
         except Exception as e:
             print(e)
             return make_response("Article Not Exist", status.HTTP_500_INTERNAL_SERVER_ERROR)
         return make_response(article_list)
+
+
+@csrf_exempt
+def add_category(request):
+    if request.method != 'POST':
+        return make_response("Method Not Allowed", status.HTTP_405_METHOD_NOT_ALLOWED)
+    else:
+        try:
+            cat_id = request.POST['category_id']
+            cat_name = request.POST['category_name']
+        except Exception as e:
+            print(e)
+            return make_response("Lack of necessary information", status.HTTP_406_NOT_ACCEPTABLE)
+        try:
+            category_obj = category(
+                category_id=cat_id,
+                category_name=cat_name
+            )
+            category_obj.save()
+        except Exception as e:
+            print(e)
+            return make_response("Failed to create category", status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return make_response("OK")

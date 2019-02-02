@@ -2,6 +2,9 @@
 import os
 
 import corsheaders
+import djcelery
+
+djcelery.setup_loader()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,8 +28,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'djcelery',
     'corsheaders',
     'gunicorn',
+
     'api'
 ]
 
@@ -112,3 +117,16 @@ CORS_ALLOW_CREDENTIALS = True
 
 
 STATIC_URL = '/static/'
+
+
+#celery settings
+#celery中间人 redis://redis服务所在的ip地址:端口/数据库
+BROKER_URL = 'redis://localhost:6379/0'
+#celery结果返回，可用于跟踪结果
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+#celery内容等消息的格式设置
+CELERY_ACCEPT_CONTENT = ['application/json', ]
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+#celery时区设置，使用settings中TIME_ZONE同样的时区
+CELERY_TIMEZONE = TIME_ZONE

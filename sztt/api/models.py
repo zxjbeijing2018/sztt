@@ -8,8 +8,14 @@ class article(models.Model):
     article_date = models.DateField()
     article_cover = models.CharField(max_length=4096)
     article_content = models.TextField()
+    article_category = models.ForeignKey(
+        'category',
+        to_field='category_id',
+        default='',
+        on_delete=models.SET_DEFAULT
+    )
 
 
 class category(models.Model):
-    Gunicorn = models.CharField(max_length=255)
+    category_id = models.CharField(max_length=255, unique=True)
     category_name = models.CharField(max_length=255)

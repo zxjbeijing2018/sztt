@@ -2,6 +2,7 @@
 import json
 import math
 
+import jieba
 import requests
 from bs4 import BeautifulSoup
 from django.http import FileResponse, HttpResponse, JsonResponse
@@ -48,7 +49,7 @@ def find_number(_str):
 def get_article_info():
     url_root = "http://jhsjk.people.cn/result/{}?title=&content=&form=0&year=0&submit=%E6%90%9C%E7%B4%A2"
     pn_url = url_root.format('')
-    pn_response = requests.get(pn_url)
+    pn_response = requests.get(pn_url, timeout=5)
     pn_soup = BeautifulSoup(pn_response.text, "lxml")
     pn_div = pn_soup.find('div', attrs={'class': 'fr'})
     article_count = find_number(pn_div.h1.get_text())
@@ -71,7 +72,11 @@ def get_article_info():
 
 def get_article(_article_info):
     url = "http://jhsjk.people.cn/article/{}".format(_article_info['id'])
-    response = requests.get(url)
+    try:
+        response = requests.get(url, timeout=5)
+    except Exception as e:
+        print(f"TimeOut:{url}")
+        return
     soup = BeautifulSoup(response.text, "lxml")
 
     content = soup.find('div', attrs={'class': 'd2txt clearfix'})
@@ -97,9 +102,21 @@ def get_article(_article_info):
             article_title=_article_info['title'],
             article_date=_article_info['date'],
             article_content=str(content).replace('\n', ''),
-            article_cover=cover
+            article_cover=cover,
+            article_category=category.objects.get(category_id=0)
         )
         article_obj.save()
         return
     except Exception:
         pass
+
+
+def get_category():
+    cat_dict = {}
+    try:
+        category_obj_list = category.objects.all()
+        for cat in category_obj_list:
+            cat_dict[cat.category_id] = cat.category_name
+    except Exception as e:
+        print(e)
+    return cat_dict
