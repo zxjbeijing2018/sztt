@@ -85,6 +85,8 @@ def get_article(_article_info):
     source = subtitle.string.split(' ')[0].split('：')[-1]
     source = source if source else 'NULL'
 
+    subtitle.clear()
+
     # 删除所有的表格标签
     tabletags = ["table", "tbody", "tr", "td", "th"]
     for ttag in tabletags:
@@ -96,6 +98,9 @@ def get_article(_article_info):
     for htag in htags:
         for match in content.findAll(htag):
             match.replaceWithChildren()
+
+    for match in content.findAll('div'):
+        match.replaceWithChildren()
 
     #删除所有的标签属性
     del content["class"]
