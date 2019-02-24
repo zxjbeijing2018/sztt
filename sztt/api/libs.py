@@ -80,11 +80,19 @@ def get_article(_article_info):
 
     content = soup.find('div', attrs={'class': 'd2txt clearfix'})
 
+    # 删除所有的表格标签
     tabletags = ["table", "tbody", "tr", "td", "th"]
     for ttag in tabletags:
         for match in content.findAll(ttag):
             match.replaceWithChildren()
 
+    # 删除所有的 h 标签
+    htags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
+    for htag in htags:
+        for match in content.findAll(htag):
+            match.replaceWithChildren()
+
+    #删除所有的标签属性
     del content["class"]
     for tag in content():
         for attribute in ["class", "id", "name", "style", "align", "width", "height"]:
