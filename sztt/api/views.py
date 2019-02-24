@@ -55,9 +55,9 @@ def article_list(request):
         article_list = []
         try:
             cat = request.GET.get('category_id', default=0)
-            limit = int(request.GET.get('limit', default=50))
+            limit = request.GET.get('limit', default=50)
             article_objs = article.objects.filter(
-                article_category=cat).order_by('-article_date')[:limit]
+                article_category=cat).order_by('-article_date')[:int(limit)]
             for article_obj in article_objs:
                 article_list.append(
                     {
