@@ -80,6 +80,11 @@ def get_article(_article_info):
 
     content = soup.find('div', attrs={'class': 'd2txt clearfix'})
 
+    subtitle = content.find('div', attrs={'class': 'd2txt_1 clearfix'})
+
+    source = subtitle.string.split(' ')[0].split('：')[-1]
+    source = source if source else 'NULL'
+
     # 删除所有的表格标签
     tabletags = ["table", "tbody", "tr", "td", "th"]
     for ttag in tabletags:
@@ -109,6 +114,7 @@ def get_article(_article_info):
             article_title=_article_info['title'],
             article_date=_article_info['date'],
             article_content=str(content).replace('\n', ''),
+            article_source=str(source),
             article_cover=cover,
             article_category=category.objects.get(category_id=0)
         )
