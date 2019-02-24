@@ -3,8 +3,8 @@ from django.http import HttpResponse, request
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
 
-from api.libs import *
-from api.tasks import run_spider
+from .libs import *
+from .tasks import run_spider
 
 
 @csrf_exempt
@@ -13,9 +13,7 @@ def spider(request):
         return make_response("Method Not Allowed", status.HTTP_405_METHOD_NOT_ALLOWED)
     else:
         try:
-            if request.META.get('HTTP_AUTHORIZED') == '57589':
-                # for ar in get_article_info():
-                #     get_article(ar)
+            if request.META.get('HTTP_AUTHORIZED') == 'wyl':
                 run_spider.delay()
                 return make_response("OK")
             else:
@@ -99,3 +97,20 @@ def add_category(request):
             print(e)
             return make_response("Failed to create category", status.HTTP_500_INTERNAL_SERVER_ERROR)
         return make_response("OK")
+
+
+@csrf_exempt
+def category_list(request):
+    if request.method != 'GET':
+        return make_response("Method Not Allowed", status.HTTP_405_METHOD_NOT_ALLOWED)
+    else:
+        category_obj = category.objects.all()
+        catdict = []
+        for cat in category_obj:
+            catdict.append(
+                {
+                    'id': cat.category_id,
+                    'name': cat.category_name
+                }
+            )
+        return make_response(catdict, status.HTTP_200_OK)

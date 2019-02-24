@@ -2,13 +2,12 @@
 import json
 import math
 
-import jieba
 import requests
 from bs4 import BeautifulSoup
 from django.http import FileResponse, HttpResponse, JsonResponse
 from rest_framework import status
 
-from api.models import *
+from .models import *
 
 
 def make_response(content='', status=status.HTTP_200_OK, typed='application/json', cookie=None):

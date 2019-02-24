@@ -1,6 +1,6 @@
 from celery.decorators import task
 
-from api.libs import get_article, get_article_info
+from .libs import get_article, get_article_info
 
 
 @task
