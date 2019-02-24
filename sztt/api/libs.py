@@ -99,6 +99,7 @@ def get_article(_article_info):
         for match in content.findAll(htag):
             match.replaceWithChildren()
 
+    # 删除所有的 div 标签
     for match in content.findAll('div'):
         match.replaceWithChildren()
 
