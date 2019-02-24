@@ -54,7 +54,9 @@ def article_list(request):
     else:
         article_list = []
         try:
-            cat = request.GET.get('category_id', default='0')
+            # cat = request.GET.get('category_id', default='0')
+            cat = 0
+            print(cat)
             article_objs = article.objects.filter(
                 article_category=cat).order_by('-article_date')
             for article_obj in article_objs:
