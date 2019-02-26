@@ -9,6 +9,7 @@ class article(models.Model):
     article_cover = models.CharField(max_length=4096)
     article_source = models.CharField(max_length=255)
     article_content = models.TextField()
+    article_editor = models.CharField(max_length=255)
     article_category = models.ForeignKey(
         'category',
         to_field='category_id',

@@ -78,19 +78,35 @@ def get_article(_article_info):
         return
     soup = BeautifulSoup(response.text, "lxml")
 
-    content = soup.find('div', attrs={'class': 'd2txt clearfix'})
+    # 文章全部信息
+    wcontent = soup.find('div', attrs={'class': 'd2txt clearfix'})
 
-    subdiv = content.find('div', attrs={'class': 'd2txt_1 clearfix'})
-    subtitle = content.find('h1')
-    centers = content.find_all('center')
+    # 标题信息
+    subtitle = wcontent.find('h1')
 
-    source = subdiv.string.split(' ')[0].split('：')[-1]
+    # 来源信息
+    source = wcontent.find('div', attrs={'class': 'd2txt_1 clearfix'})
+    source = source.string.split(' ')[0].split('：')[-1]
     source = source if source else 'NULL'
 
-    subdiv.clear()
-    subtitle.clear()
-    for center in centers:
-        center.clear()
+    # 文章主体
+    content = wcontent.find('div', attrs={'class': 'd2txt_con clearfix'})
+
+    # 编辑
+    editor = wcontent.find('div', attrs={'class': 'editor clearfix'})
+    editor = editor.string[1:-1].strip().split('：')[-1]
+    editor = editor if editor else 'NULL'
+
+    # 提取文章第一张图片作为封面，如果没有为 NULL
+    cover = content.find('img')
+    try:
+        cover = str(cover['src'])
+    except Exception:
+        cover = 'NULL'
+
+    # 删除被居中的文字
+    for match in content.findAll('p', attrs={'style': 'text-indent: 2em; text-align: center;'}):
+        match.decompose()
 
     # 删除所有的表格标签
     tabletags = ["table", "tbody", "tr", "td", "th"]
@@ -114,31 +130,29 @@ def get_article(_article_info):
         for attribute in ["class", "id", "name", "style", "align", "width", "height"]:
             del tag[attribute]
 
-    cover = content.find('img')
-    try:
-        cover = str(cover['src'])
-    except Exception:
-        cover = 'NULL'
-
+    # 删除文章中所有的图片
     for match in content.findAll('img'):
-        match.replaceWithChildren()
+        match.decompose()
 
+    # 删除所有的 a 标签
     for match in content.findAll('a'):
         match.replaceWithChildren()
 
-    for match in content.findAll('strong'):
-        match.replaceWithChildren()
+    for match in content.findAll('p'):
+        if not match.string:
+            match.decompose()
 
-    for match in content.findAll('center'):
-        match.replaceWithChildren()
-
+    # 去除所有的换行符
+    content = str(content).replace('\n', '')
+        
     try:
         article_obj = article(
             article_id=_article_info['id'],
             article_title=_article_info['title'],
             article_date=_article_info['date'],
-            article_content=str(content).replace('\n', ''),
-            article_source=str(source),
+            article_content=content,
+            article_source=source,
+            article_editor=editor,
             article_cover=cover,
             article_category=category.objects.get(category_id=0)
         )

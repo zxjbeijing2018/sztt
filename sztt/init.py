@@ -1,4 +1,11 @@
+import os
+import shutil
+
 import pymysql
+
+fileroot = os.path.dirname(os.path.abspath(__file__))
+print(fileroot)
+migrations_dir = os.path.join(fileroot, 'api', 'migrations')
 
 mysqlconf = {
     'host': '127.0.0.1',
@@ -24,6 +31,12 @@ def init():
         except Exception:
             cursor.execute(initsql)
         connection.commit()
+
+    try:
+        print('del {}'.format(migrations_dir))
+        shutil.rmtree(migrations_dir)
+    except Exception:
+        pass
 
 
 init()
