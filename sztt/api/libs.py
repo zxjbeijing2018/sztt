@@ -82,12 +82,15 @@ def get_article(_article_info):
 
     subdiv = content.find('div', attrs={'class': 'd2txt_1 clearfix'})
     subtitle = content.find('h1')
+    centers = content.find_all('center')
 
     source = subdiv.string.split(' ')[0].split('：')[-1]
     source = source if source else 'NULL'
 
     subdiv.clear()
     subtitle.clear()
+    for center in centers:
+        center.clear()
 
     # 删除所有的表格标签
     tabletags = ["table", "tbody", "tr", "td", "th"]
@@ -118,6 +121,15 @@ def get_article(_article_info):
         cover = 'NULL'
 
     for match in content.findAll('img'):
+        match.replaceWithChildren()
+
+    for match in content.findAll('a'):
+        match.replaceWithChildren()
+
+    for match in content.findAll('strong'):
+        match.replaceWithChildren()
+
+    for match in content.findAll('center'):
         match.replaceWithChildren()
 
     try:
