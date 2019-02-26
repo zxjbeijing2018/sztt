@@ -36,6 +36,7 @@ def getarticle(request, _id):
                     "title": article_obj.article_title,
                     "date": article_obj.article_date,
                     "source": article_obj.article_source,
+                    "author_avatar": article_obj.article_cover,
                     "content": article_obj.article_content,
                     "category": {
                         "id": article_obj.article_category.category_id,

@@ -80,11 +80,13 @@ def get_article(_article_info):
 
     content = soup.find('div', attrs={'class': 'd2txt clearfix'})
 
-    subtitle = content.find('div', attrs={'class': 'd2txt_1 clearfix'})
+    subdiv = content.find('div', attrs={'class': 'd2txt_1 clearfix'})
+    subtitle = content.find('h1')
 
-    source = subtitle.string.split(' ')[0].split('：')[-1]
+    source = subdiv.string.split(' ')[0].split('：')[-1]
     source = source if source else 'NULL'
 
+    subdiv.clear()
     subtitle.clear()
 
     # 删除所有的表格标签
@@ -114,6 +116,10 @@ def get_article(_article_info):
         cover = str(cover['src'])
     except Exception:
         cover = 'NULL'
+
+    for match in content.findAll('img'):
+        match.replaceWithChildren()
+
     try:
         article_obj = article(
             article_id=_article_info['id'],
