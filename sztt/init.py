@@ -4,7 +4,6 @@ import shutil
 import pymysql
 
 fileroot = os.path.dirname(os.path.abspath(__file__))
-print(fileroot)
 migrations_dir = os.path.join(fileroot, 'api', 'migrations')
 
 mysqlconf = {
