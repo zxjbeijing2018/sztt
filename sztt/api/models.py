@@ -13,7 +13,7 @@ class article(models.Model):
     article_category = models.ForeignKey(
         'category',
         to_field='category_id',
-        default='',
+        default='-1',
         on_delete=models.SET_DEFAULT
     )
 
