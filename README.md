@@ -34,7 +34,11 @@ category_name:<category_name>
 
 - description: 获取文章列表
 - method: ```GET```
-- parameter: ```category_id:<category_id>|all```
+- parameter: 
+```
+category_id:<category_id> default 0
+limit:<max items> default 50
+```
 - rtype: ```json```
 ```
 {
@@ -71,13 +75,27 @@ category_name:<category_name>
             "id": <id>,
             "title": <title>,
             "date": <date>,
-            "content": <content>
+            "source":<source>,
+            "author_avatar":<author_avatar>,
+            "editor":<editor>,
+            "content": <content>,
+            "category":{
+                "id":<category_id>,
+                "display_name":<name>
+            }
         },
         {
             "id": <id>,
             "title": <title>,
             "date": <date>,
-            "content": <content>
+            "source":<source>,
+            "author_avatar":<author_avatar>,
+            "editor":<editor>,
+            "content": <content>,
+            "category":{
+                "id":<category_id>,
+                "display_name":<name>
+            }
         }
     ]
 }
