@@ -138,18 +138,17 @@ def get_article(_article_info):
     for match in content.findAll('a'):
         match.replaceWithChildren()
 
-    # # 删除所有的粗体
-    # for match in content.findAll('strong'):
-    #     match.replaceWithChildren()
+    # 删除所有的粗体
+    for match in content.findAll('strong'):
+        match.replaceWithChildren()
 
-    
-    # for match in content.findAll('p'):
-    #     if not match.string:
-    #         match.replaceWithChildren()
+    for match in content.findAll('p'):
+        if not match.string:
+            match.replaceWithChildren()
 
     # 去除所有的换行符
     content = str(content).replace('\n', '')
-        
+
     try:
         article_obj = article(
             article_id=_article_info['id'],
