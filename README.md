@@ -75,13 +75,13 @@ limit:<max items> default 50
             "id": <id>,
             "title": <title>,
             "date": <date>,
-            "source":<source>,
-            "author_avatar":<author_avatar>,
-            "editor":<editor>,
+            "source": <source>,
+            "author_avatar": <author_avatar>,
+            "editor": <editor>,
             "content": <content>,
             "category":{
-                "id":<category_id>,
-                "display_name":<name>
+                "id": <category_id>,
+                "display_name": <name>
             }
         },
         {
