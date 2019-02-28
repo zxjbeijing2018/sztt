@@ -58,7 +58,6 @@ def article_list(request):
     else:
         article_list = []
         try:
-            # request.setCharacterEncoding("UTF-8");
             cat = request.GET.get('category_id', default=0)
             limit = request.GET.get('limit', default=50)
             keyword = request.GET.get('search', default='')
