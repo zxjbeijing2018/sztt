@@ -60,7 +60,7 @@ def article_list(request):
         try:
             cat = request.GET.get('category_id', default=0)
             limit = request.GET.get('limit', default=50)
-            keyword = request.GET.get('search', default='')
+            keyword = request.GET.get('keyword', default='')
 
             if not keyword:
                 article_objs = article.objects.filter(
