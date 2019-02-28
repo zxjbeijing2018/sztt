@@ -70,7 +70,7 @@ def article_list(request):
                     article_category=cat).order_by('-article_date')
 
                 article_objs = [
-                    i for i in article_objs if keyword in i.article_title]
+                    i for i in article_objs if keyword in i.article_title][:int(limit)]
 
             for article_obj in article_objs:
                 article_list.append(
