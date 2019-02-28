@@ -3,9 +3,9 @@ from django.http import HttpResponse, request
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
 
-from .libs import *
-from .tasks import run_spider
-from .models import *
+from api.libs import *
+from api.tasks import run_spider
+from api.models import *
 
 
 @csrf_exempt
