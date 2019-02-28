@@ -5,6 +5,7 @@ from rest_framework import status
 
 from .libs import *
 from .tasks import run_spider
+from .models import *
 
 
 @csrf_exempt
@@ -59,8 +60,18 @@ def article_list(request):
         try:
             cat = request.GET.get('category_id', default=0)
             limit = request.GET.get('limit', default=50)
-            article_objs = article.objects.filter(
-                article_category=cat).order_by('-article_date')[:int(limit)]
+            keyword = request.GET.get('search', default='')
+
+            if not keyword:
+                article_objs = article.objects.filter(
+                    article_category=cat).order_by('-article_date')[:int(limit)]
+            else:
+                article_objs = article.objects.filter(
+                    article_category=cat).order_by('-article_date')
+
+                article_objs = [
+                    i for i in article_objs if keyword in i.article_title]
+
             for article_obj in article_objs:
                 article_list.append(
                     {
