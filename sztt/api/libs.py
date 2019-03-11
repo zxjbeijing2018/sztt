@@ -1,13 +1,14 @@
 # -*- coding:utf-8 -*-
 import json
 import math
+from random import randint
 
 import requests
 from bs4 import BeautifulSoup
 from django.http import FileResponse, HttpResponse, JsonResponse
-from rest_framework import status
 
 from api.models import *
+from rest_framework import status
 
 
 def make_response(content='', status=status.HTTP_200_OK, typed='application/json', cookie=None):
@@ -39,13 +40,13 @@ def make_response(content='', status=status.HTTP_200_OK, typed='application/json
             return FileResponse(content, status=status)
 
 
-def find_number(_str):
-    import re
-    res = re.findall(r'\d+', _str)
-    return int(res[0]) if res else None
-
-
 def get_article_info():
+
+    def find_number(_str):
+        import re
+        res = re.findall(r'\d+', _str)
+        return int(res[0]) if res else None
+
     url_root = "http://jhsjk.people.cn/result/{}?title=&content=&form=0&year=0&submit=%E6%90%9C%E7%B4%A2"
     pn_url = url_root.format('')
     pn_response = requests.get(pn_url, timeout=5)
@@ -70,6 +71,10 @@ def get_article_info():
 
 
 def get_article(_article_info):
+
+    def randomint():
+        return randint(0, 9)
+
     url = "http://jhsjk.people.cn/article/{}".format(_article_info['id'])
     try:
         response = requests.get(url, timeout=5)
@@ -158,7 +163,7 @@ def get_article(_article_info):
             article_source=source,
             article_editor=editor,
             article_cover=cover,
-            article_category=category.objects.get(category_id=0)
+            article_category=category.objects.get(category_id=randomint())
         )
         article_obj.save()
         return
