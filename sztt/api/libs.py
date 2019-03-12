@@ -155,9 +155,6 @@ def get_article(_article_info):
     # 去除所有的换行符
     content = str(content).replace('\n', '')
 
-    cat_id = randint()
-    print(cat_id)
-
     try:
         article_obj = article(
             article_id=_article_info['id'],
