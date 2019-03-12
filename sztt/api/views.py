@@ -58,7 +58,7 @@ def article_list(request):
     else:
         article_list = []
         try:
-            cat = request.GET.get('category_id')
+            cat = request.GET.get('category_id', default=0)
             limit = request.GET.get('limit', default=50)
             keyword = request.GET.get('keyword', default='')
 

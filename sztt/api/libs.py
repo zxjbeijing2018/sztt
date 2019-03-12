@@ -154,6 +154,9 @@ def get_article(_article_info):
     # 去除所有的换行符
     content = str(content).replace('\n', '')
 
+    cat_id = randint()
+    print(cat_id)
+
     try:
         article_obj = article(
             article_id=_article_info['id'],
@@ -163,7 +166,7 @@ def get_article(_article_info):
             article_source=source,
             article_editor=editor,
             article_cover=cover,
-            article_category=category.objects.get(category_id=randomint())
+            article_category=category.objects.get(category_id=cat_id)
         )
         article_obj.save()
         return
