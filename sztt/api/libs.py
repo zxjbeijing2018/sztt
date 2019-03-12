@@ -46,6 +46,9 @@ def get_article_info():
         import re
         res = re.findall(r'\d+', _str)
         return int(res[0]) if res else None
+    
+    def randomint():
+        return randint(0, 9)
 
     url_root = "http://jhsjk.people.cn/result/{}?title=&content=&form=0&year=0&submit=%E6%90%9C%E7%B4%A2"
     pn_url = url_root.format('')
@@ -64,17 +67,15 @@ def get_article_info():
                 yield {
                     'id': li.a['href'].split('/')[-1],
                     'title': li.a.string,
-                    'date': li.get_text().strip()[-11:-1]
+                    'date': li.get_text().strip()[-11:-1],
+                    'cat_id': randomint()
                 }
             except Exception as e:
                 pass
 
 
+
 def get_article(_article_info):
-
-    def randomint():
-        return randint(0, 9)
-
     url = "http://jhsjk.people.cn/article/{}".format(_article_info['id'])
     try:
         response = requests.get(url, timeout=5)
@@ -166,7 +167,7 @@ def get_article(_article_info):
             article_source=source,
             article_editor=editor,
             article_cover=cover,
-            article_category=category.objects.get(category_id=cat_id)
+            article_category=category.objects.get(category_id=_article_info['cat_id'])
         )
         article_obj.save()
         return
