@@ -10,7 +10,7 @@ mysqlconf = {
     'host': '127.0.0.1',
     'port': 3306,
     'user': 'root',
-    'password': 'zb@1030475',
+    'password': '1030475',
     'db': 'mysql',
     'charset': 'utf8',
 }

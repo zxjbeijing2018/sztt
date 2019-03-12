@@ -48,7 +48,7 @@ def get_article_info():
         return int(res[0]) if res else None
     
     def randomint():
-        return randint(0, 9)
+        return str(randint(0, 9))
 
     url_root = "http://jhsjk.people.cn/result/{}?title=&content=&form=0&year=0&submit=%E6%90%9C%E7%B4%A2"
     pn_url = url_root.format('')

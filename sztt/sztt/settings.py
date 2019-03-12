@@ -73,7 +73,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'szttdb',
         'USER': 'root',
-        'PASSWORD': 'zb@1030475',
+        'PASSWORD': '1030475',
         'HOST': '127.0.0.1',
         'PORT': 3306,
     }
